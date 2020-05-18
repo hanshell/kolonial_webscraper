@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup as Soup
 import requests
-import time
-import re
+import datetime
 
 
 def get_html_doc(url):
@@ -46,20 +45,31 @@ def write_all_products_from_category_to_file(url):
     products = category_product_soup.find_all("div", {"class": "product-list-item"})
     print(category_product_soup)
 
+    split_string = url.split("/")
+    category_name = split_string[len(split_string)-2]
 
-    category_file = open("scraping_results/testwrite.txt", "a")
+    today = datetime.date.today()
+
+    category_file = open("/home/k27549/Documents/Projects/Personal/kolonial_webscraper/scraping_results/"+category_name+"-"+str(today)+".txt", "w+")
     category_file.truncate(0)
 
     for product in products:
         name, price, unit_price = find_product_info(product)
+
+
 
         print(name.text.strip())
         print(price.text.strip())
         print(unit_price.text.strip())
         print()
 
-        category_file.writelines([name.text.strip(), price.text.strip(), unit_price.text.strip()])
+        category_file.write(name.text.strip()+"\n")
+        category_file.write(price.text.strip()+"\n")
+        category_file.write(unit_price.text.strip()+"\n\n")
+
     category_file.close()
+
+write_all_products_from_category_to_file("https://kolonial.no/kategorier/488-mathall/")
 
 
 #get_all_products_from_category("https://kolonial.no/produkter/salg/")
