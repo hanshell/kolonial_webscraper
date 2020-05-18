@@ -56,8 +56,6 @@ def write_all_products_from_category_to_file(url):
     for product in products:
         name, price, unit_price = find_product_info(product)
 
-
-
         print(name.text.strip())
         print(price.text.strip())
         print(unit_price.text.strip())
@@ -69,7 +67,15 @@ def write_all_products_from_category_to_file(url):
 
     category_file.close()
 
-write_all_products_from_category_to_file("https://kolonial.no/kategorier/488-mathall/")
+def scrape_website():
+    category_links = get_all_product_category_links("https://kolonial.no/produkter/")
+
+    for link in category_links:
+        write_all_products_from_category_to_file(link)
+
+
+scrape_website()
+#write_all_products_from_category_to_file("https://kolonial.no/kategorier/488-mathall/")
 
 
 #get_all_products_from_category("https://kolonial.no/produkter/salg/")
