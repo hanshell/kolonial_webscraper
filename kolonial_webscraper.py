@@ -14,13 +14,15 @@ def get_html_doc(url):
 def print_html_doc_body(url):
     print(get_html_doc(url).body.prettify)
 
-
 def get_all_product_category_links(url):
     soup = get_html_doc(url)
     product_categories = soup.findAll("li", {"class": "parent-category"})
+
     product_category_links = []
+
     for product in product_categories:
         product_category_links.append("https://kolonial.no"+product.h4.a["href"])
+
     return product_category_links
 
 
@@ -36,12 +38,17 @@ def find_product_info(product_soup):
     return name, price, unit_price
 
 
-def get_all_products_from_category(url):
+def write_all_products_from_category_to_file(url):
     r = get_html_doc(url)
     r.raise_for_status
 
     category_product_soup = get_html_doc(url)
     products = category_product_soup.find_all("div", {"class": "product-list-item"})
+    print(category_product_soup)
+
+
+    category_file = open("scraping_results/testwrite.txt", "a")
+    category_file.truncate(0)
 
     for product in products:
         name, price, unit_price = find_product_info(product)
@@ -49,10 +56,14 @@ def get_all_products_from_category(url):
         print(name.text.strip())
         print(price.text.strip())
         print(unit_price.text.strip())
+        print()
+
+        category_file.writelines([name.text.strip(), price.text.strip(), unit_price.text.strip()])
+    category_file.close()
 
 
-get_all_products_from_category("https://kolonial.no/produkter/salg/")
-
+#get_all_products_from_category("https://kolonial.no/produkter/salg/")
+#print_html_doc_body("https://kolonial.no/produkter/")
 #print_html_doc_body("https://kolonial.no/produkter/salg/")
 #category_product_soup = get_html_doc("https://kolonial.no/produkter/salg/")
 #products = category_product_soup.find_all("div", {"class": "product-list-item"})
@@ -62,25 +73,3 @@ get_all_products_from_category("https://kolonial.no/produkter/salg/")
 #name = products[0].find("div", {"class": "name-main"})
 #price = products[0].find("p", {"class": "price label label-price"})
 #unit_price = products[0].find("p", {"class": "unit-price"})
-
-
-#print(name.text.strip())
-#print(price.text.strip())
-#print(unit_price.text.strip())
-#print(time.asctime(time.localtime(time.time())))
-
-#print(products[0].p[class"price label label-price"])
-
-#product_categories = get_all_product_categories("https://kolonial.no/produkter/")
-#print(product_categories)
-
-
-#link = product_categories.find("ul", {"class": "collapse navbar-collapse"})
-#link = product_categories.ul
-#print(link)
-
-
-#product_categories = get_all_product_categories("https://kolonial.no/produkter/", )
-
-
-#print_html_doc_body("https://kolonial.no/kategorier/401-blomster-og-planter/")
