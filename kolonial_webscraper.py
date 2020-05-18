@@ -67,25 +67,11 @@ def write_all_products_from_category_to_file(url):
 
     category_file.close()
 
-def scrape_website():
-    category_links = get_all_product_category_links("https://kolonial.no/produkter/")
+def scrape_website(url):
+    category_links = get_all_product_category_links(url)
 
     for link in category_links:
         write_all_products_from_category_to_file(link)
 
 
-scrape_website()
-#write_all_products_from_category_to_file("https://kolonial.no/kategorier/488-mathall/")
-
-
-#get_all_products_from_category("https://kolonial.no/produkter/salg/")
-#print_html_doc_body("https://kolonial.no/produkter/")
-#print_html_doc_body("https://kolonial.no/produkter/salg/")
-#category_product_soup = get_html_doc("https://kolonial.no/produkter/salg/")
-#products = category_product_soup.find_all("div", {"class": "product-list-item"})
-
-#print(products[0])
-
-#name = products[0].find("div", {"class": "name-main"})
-#price = products[0].find("p", {"class": "price label label-price"})
-#unit_price = products[0].find("p", {"class": "unit-price"})
+scrape_website("https://kolonial.no/produkter/")
