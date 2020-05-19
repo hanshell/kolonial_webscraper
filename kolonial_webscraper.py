@@ -64,6 +64,7 @@ def write_all_products_from_category_to_file(url):
     category_file.close()
 
 
+# Write all products from all categories to files
 def scrape_website(url):
     category_links = get_all_product_category_links(url)
 
